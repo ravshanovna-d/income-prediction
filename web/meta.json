@@ -1,0 +1,500 @@
+{
+  "title": "Income Prediction",
+  "subtitle": "Predicts whether a person earns more than $50K a year from census information such as age, education, occupation and hours worked.",
+  "tags": [
+    "Classification",
+    "Pipelines",
+    "Cross-validation",
+    "XGBoost",
+    "SHAP",
+    "ONNX"
+  ],
+  "task": "classification",
+  "classes": [
+    0,
+    1
+  ],
+  "positive_class": 1,
+  "output_label": "Probability of earning more than $50K / year",
+  "verdicts": [
+    "Likely \u2264 $50K",
+    "Uncertain",
+    "Likely > $50K"
+  ],
+  "thresholds": [
+    0.35,
+    0.65
+  ],
+  "positive_is_good": true,
+  "result_note": "Try changing Education, Occupation or Hours worked per week. Census data from 1994 \u2014 dollar amounts are not inflation-adjusted.",
+  "features": [
+    {
+      "name": "age",
+      "label": "Age",
+      "help": "years",
+      "type": "number",
+      "min": 17.0,
+      "max": 90.0,
+      "step": 1,
+      "default": 37
+    },
+    {
+      "name": "workclass",
+      "label": "Employer type",
+      "type": "category",
+      "options": [
+        "Federal government",
+        "Local government",
+        "Never worked",
+        "Private company",
+        "Self-employed",
+        "Self-employed (own company)",
+        "State government",
+        "Unknown",
+        "Unpaid"
+      ],
+      "default": "Private company"
+    },
+    {
+      "name": "education",
+      "label": "Education",
+      "type": "category",
+      "options": [
+        "Preschool",
+        "Grades 1-4",
+        "Grades 5-6",
+        "Grades 7-8",
+        "Grade 9",
+        "Grade 10",
+        "Grade 11",
+        "Grade 12",
+        "High school graduate",
+        "Some college",
+        "Associate (vocational)",
+        "Associate (academic)",
+        "Bachelor's",
+        "Master's",
+        "Professional school",
+        "Doctorate"
+      ],
+      "default": "High school graduate"
+    },
+    {
+      "name": "marital_status",
+      "label": "Marital status",
+      "type": "category",
+      "options": [
+        "Divorced",
+        "Married",
+        "Married (spouse absent)",
+        "Married (spouse in armed forces)",
+        "Never married",
+        "Separated",
+        "Widowed"
+      ],
+      "default": "Married"
+    },
+    {
+      "name": "occupation",
+      "label": "Occupation",
+      "type": "category",
+      "options": [
+        "Administrative / clerical",
+        "Armed forces",
+        "Craft / repair",
+        "Executive / managerial",
+        "Farming / fishing",
+        "Handlers / cleaners",
+        "Machine operator",
+        "Other service",
+        "Private household service",
+        "Professional specialty",
+        "Protective service",
+        "Sales",
+        "Tech support",
+        "Transport / moving",
+        "Unknown"
+      ],
+      "default": "Professional specialty"
+    },
+    {
+      "name": "relationship",
+      "label": "Role in household",
+      "type": "category",
+      "options": [
+        "Not in family",
+        "Other relative",
+        "Own child",
+        "Spouse (female)",
+        "Spouse (male)",
+        "Unmarried"
+      ],
+      "default": "Spouse (male)"
+    },
+    {
+      "name": "race",
+      "label": "Race",
+      "type": "category",
+      "options": [
+        "Amer Indian Eskimo",
+        "Asian Pac Islander",
+        "Black",
+        "Other",
+        "White"
+      ],
+      "default": "White"
+    },
+    {
+      "name": "sex",
+      "label": "Sex",
+      "type": "category",
+      "options": [
+        "Female",
+        "Male"
+      ],
+      "default": "Male"
+    },
+    {
+      "name": "capital_gain",
+      "label": "Capital gains",
+      "help": "USD per year, usually 0",
+      "type": "number",
+      "min": 0.0,
+      "max": 99999.0,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "name": "capital_loss",
+      "label": "Capital losses",
+      "help": "USD per year, usually 0",
+      "type": "number",
+      "min": 0.0,
+      "max": 4356.0,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "name": "hours_per_week",
+      "label": "Hours worked per week",
+      "type": "number",
+      "min": 1.0,
+      "max": 99.0,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "name": "native_country",
+      "label": "Country of origin",
+      "type": "category",
+      "options": [
+        "United States",
+        "Mexico",
+        "Unknown",
+        "Philippines",
+        "Germany",
+        "Puerto Rico",
+        "Canada",
+        "El Salvador",
+        "India",
+        "Cuba",
+        "England",
+        "South",
+        "China",
+        "Dominican Republic",
+        "Jamaica",
+        "Italy",
+        "Guatemala",
+        "Japan",
+        "Vietnam",
+        "Poland",
+        "Columbia",
+        "Haiti",
+        "Portugal",
+        "Taiwan",
+        "Iran",
+        "Peru",
+        "Nicaragua",
+        "Greece",
+        "Ecuador",
+        "France",
+        "Ireland",
+        "Thailand",
+        "Hong",
+        "Trinadad&Tobago",
+        "Outlying US(Guam USVI etc)",
+        "Yugoslavia",
+        "Cambodia",
+        "Scotland",
+        "Honduras",
+        "Laos",
+        "Hungary",
+        "Holand Netherlands"
+      ],
+      "default": "United States"
+    }
+  ],
+  "examples": [
+    {
+      "age": 44.0,
+      "workclass": "Private company",
+      "education": "High school graduate",
+      "marital_status": "Never married",
+      "occupation": "Craft / repair",
+      "relationship": "Not in family",
+      "race": "Black",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 52.0,
+      "workclass": "Federal government",
+      "education": "Some college",
+      "marital_status": "Married",
+      "occupation": "Administrative / clerical",
+      "relationship": "Spouse (male)",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 39.0,
+      "workclass": "Private company",
+      "education": "Bachelor's",
+      "marital_status": "Married",
+      "occupation": "Sales",
+      "relationship": "Spouse (male)",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 60.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 24.0,
+      "workclass": "Private company",
+      "education": "Bachelor's",
+      "marital_status": "Never married",
+      "occupation": "Craft / repair",
+      "relationship": "Own child",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 28.0,
+      "workclass": "Private company",
+      "education": "Bachelor's",
+      "marital_status": "Never married",
+      "occupation": "Administrative / clerical",
+      "relationship": "Own child",
+      "race": "Asian Pac Islander",
+      "sex": "Female",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 30.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 29.0,
+      "workclass": "Private company",
+      "education": "Associate (vocational)",
+      "marital_status": "Married",
+      "occupation": "Professional specialty",
+      "relationship": "Spouse (male)",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 54.0,
+      "workclass": "Private company",
+      "education": "High school graduate",
+      "marital_status": "Married",
+      "occupation": "Craft / repair",
+      "relationship": "Spouse (male)",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 5178.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 19.0,
+      "workclass": "Unknown",
+      "education": "High school graduate",
+      "marital_status": "Never married",
+      "occupation": "Unknown",
+      "relationship": "Own child",
+      "race": "Black",
+      "sex": "Female",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 25.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 55.0,
+      "workclass": "Private company",
+      "education": "High school graduate",
+      "marital_status": "Married",
+      "occupation": "Executive / managerial",
+      "relationship": "Spouse (male)",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 50.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 64.0,
+      "workclass": "Unknown",
+      "education": "Grade 11",
+      "marital_status": "Married",
+      "occupation": "Unknown",
+      "relationship": "Spouse (male)",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 30.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 26.0,
+      "workclass": "Private company",
+      "education": "Some college",
+      "marital_status": "Never married",
+      "occupation": "Craft / repair",
+      "relationship": "Own child",
+      "race": "White",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    },
+    {
+      "age": 20.0,
+      "workclass": "State government",
+      "education": "High school graduate",
+      "marital_status": "Never married",
+      "occupation": "Other service",
+      "relationship": "Other relative",
+      "race": "Other",
+      "sex": "Male",
+      "capital_gain": 0.0,
+      "capital_loss": 0.0,
+      "hours_per_week": 40.0,
+      "native_country": "United States"
+    }
+  ],
+  "model_name": "XGBoost",
+  "comparison": [
+    {
+      "model": "CatBoost",
+      "ROC-AUC": 0.9290911866803715,
+      "F1": 0.7083653692254346,
+      "Accuracy": 0.8720854852937974,
+      "Fit time (s)": 90.00618064000155
+    },
+    {
+      "model": "XGBoost",
+      "ROC-AUC": 0.9289406391657554,
+      "F1": 0.7126094105853197,
+      "Accuracy": 0.8735185677363383,
+      "Fit time (s)": 8.770356845855712
+    },
+    {
+      "model": "LightGBM",
+      "ROC-AUC": 0.9275631617167704,
+      "F1": 0.7113065964037393,
+      "Accuracy": 0.8719318591022462,
+      "Fit time (s)": 3.2269600868225097
+    },
+    {
+      "model": "Gradient Boosting",
+      "ROC-AUC": 0.9245458495086242,
+      "F1": 0.6990660647887635,
+      "Accuracy": 0.8697564536706841,
+      "Fit time (s)": 33.10547475814819
+    },
+    {
+      "model": "Random Forest",
+      "ROC-AUC": 0.9166121335704605,
+      "F1": 0.6750457210425849,
+      "Accuracy": 0.8621296683397632,
+      "Fit time (s)": 22.152223539352416
+    },
+    {
+      "model": "Logistic Regression",
+      "ROC-AUC": 0.9064153299938391,
+      "F1": 0.6580065681959247,
+      "Accuracy": 0.8510989658635575,
+      "Fit time (s)": 0.944618558883667
+    }
+  ],
+  "test_metrics": {
+    "ROC-AUC": 0.9306072381449684,
+    "Accuracy": 0.8763435356740711,
+    "Precision": 0.7933541017653167,
+    "Recall": 0.6535500427715997,
+    "F1": 0.7166979362101313
+  },
+  "metric_formats": {
+    "Accuracy": "percent",
+    "Precision": "percent",
+    "Recall": "percent",
+    "F1": "percent"
+  },
+  "metrics_note": "Held-out test set: 9,769 people never used for training or model selection.",
+  "figures": [
+    {
+      "src": "assets/shap_importance.png",
+      "caption": "SHAP: marital status, age, capital gains and education matter most."
+    },
+    {
+      "src": "assets/income_by_education.png",
+      "caption": "The share of high earners climbs with every education level."
+    },
+    {
+      "src": "assets/roc_curve.png",
+      "caption": "ROC curve on the test set."
+    },
+    {
+      "src": "assets/confusion_matrix.png",
+      "caption": "Correct and wrong predictions on the test set."
+    }
+  ],
+  "steps": [
+    "Loaded the UCI Adult census data (48,842 people, 24% earn >50K) from OpenML.",
+    "Renamed columns to simple names, marked missing answers as \u201cUnknown\u201d, dropped the census sampling weight.",
+    "Built one scikit-learn Pipeline per model (one-hot encoding for categories, scaling for the linear model).",
+    "Compared Logistic Regression, Random Forest, Gradient Boosting, XGBoost, LightGBM and CatBoost with 5-fold stratified cross-validation (ROC-AUC, F1, training time).",
+    "Shipped XGBoost (best exportable model) and evaluated it once on a held-out 20% test set.",
+    "Explained it with SHAP values and exported the whole pipeline to ONNX for the browser."
+  ],
+  "dataset": {
+    "name": "UCI Adult (Census Income), OpenML",
+    "url": "https://www.openml.org/d/1590",
+    "rows": 48842
+  },
+  "repo_url": "https://github.com/ravshanovna-d/income-prediction",
+  "notebook_url": "https://github.com/ravshanovna-d/income-prediction/blob/main/notebook.ipynb",
+  "footer": "Built by <a href=\"https://github.com/ravshanovna-d\">ravshanovna-d</a>"
+}
