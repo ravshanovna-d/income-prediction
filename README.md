@@ -2,7 +2,7 @@
 
 Predicts whether a person earns more than $50K a year from census information such as age, education, occupation and hours worked — with a fair, leak-free comparison of six popular models.
 
-**[Live demo →](LIVE_DEMO_URL)** — fill in a person's profile and get the probability of earning >$50K instantly. The model runs in your browser (ONNX Runtime Web), no server needed.
+**[Live demo →](https://ravshanovna-income.vercel.app)** — fill in a person's profile and get the probability of earning >$50K instantly. The model runs in your browser (ONNX Runtime Web), no server needed.
 
 ![What drives the prediction](web/assets/shap_importance.png)
 
